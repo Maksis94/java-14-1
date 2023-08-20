@@ -30,4 +30,26 @@ public class ShopRepositoryTest {
             repository.remove(100);
         });
     }
+
+    @Test
+    public void shouldAddElements() {
+        repository.add(product1);
+        repository.add(product2);
+        repository.add(product3);
+
+        Assertions.assertArrayEquals(repository.findAll(), new Product[]{product1, product2, product3});
+    }
+
+    @Test
+    public void shouldThrowIfElementAlreadyExists() {
+        repository.add(product1);
+        repository.add(product2);
+        repository.add(product3);
+
+        Product product = new Product(3, "Тестовый продукт", 10000);
+
+        Assertions.assertThrows(AlreadyExistsException.class, () -> {
+            repository.add(product);
+        });
+    }
 }
